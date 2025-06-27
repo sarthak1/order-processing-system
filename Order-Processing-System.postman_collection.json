@@ -1,0 +1,117 @@
+{
+  "info": {
+    "name": "Order Processing System",
+    "description": "A collection of APIs for the Order Processing System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Orders",
+      "description": "Order management endpoints",
+      "item": [
+        {
+          "name": "Create Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"customerId\": \"CUST123\",\n    \"customerName\": \"John Doe\",\n    \"items\": [\n        {\n            \"productName\": \"Laptop\",\n            \"price\": 1200.00,\n            \"quantity\": 1\n        },\n        {\n            \"productName\": \"Mouse\",\n            \"price\": 25.50,\n            \"quantity\": 2\n        }\n    ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/orders",
+              "host": ["{{base_url}}/api/orders"]
+            },
+            "description": "Create a new order with order items"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Order by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/orders/1",
+              "host": ["{{base_url}}/api/orders/1"]
+            },
+            "description": "Retrieve order details by order ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/orders",
+              "host": ["{{base_url}}/api/orders"]
+            },
+            "description": "Retrieve all orders"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Orders by Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/orders/status/PENDING",
+              "host": ["{{base_url}}/api/orders/status/PENDING"]
+            },
+            "description": "Retrieve orders filtered by status (PENDING, PROCESSING, COMPLETED, CANCELLED)"
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/orders/1",
+              "host": ["{{base_url}}/api/orders/1"]
+            },
+            "description": "Cancel an existing order (must be in PENDING status)"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": null,
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "exec": [
+          ""
+        ],
+        "type": "text/javascript"
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "exec": [
+          ""
+        ],
+        "type": "text/javascript"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8082",
+      "type": "string"
+    }
+  ]
+}

@@ -41,18 +41,83 @@ cp src/main/resources/application.properties src/main/resources/application-loca
 
 ## Running the Application
 
-### Development Mode
+### Development Mode with Hot Reload
 
+1. First, ensure you have Spring Boot DevTools in your `pom.xml` (already included in this project).
+
+2. Run the application with:
+   ```bash
+   mvn spring-boot:run -Dspring-boot.run.profiles=local -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
+   ```
+
+3. The application will start on `http://localhost:8082`
+
+4. **Hot Reloading**:
+   - Make changes to your code
+   - Save the file (Ctrl+S / Cmd+S)
+   - The application will automatically restart with your changes
+   - For static resources (templates, static files), changes are applied immediately without restart
+
+### Common Development Commands
+
+#### Start a fresh instance
 ```bash
+# Stop any running instances first
+pkill -f "java.*order-processing" || true
+
+# Clear target directory and rebuild
+mvn clean install
+
+# Start the application
 mvn spring-boot:run -Dspring-boot.run.profiles=local
 ```
 
-The application will start on `http://localhost:8082`
+#### Stop the application
+```bash
+# Graceful shutdown (sends SIGTERM)
+pkill -f "java.*order-processing"
+
+# Force stop (use if above doesn't work)
+pkill -9 -f "java.*order-processing"
+```
+
+#### Free up port if it's in use
+```bash
+# Find and kill process using port 8082 (Linux/Mac)
+lsof -i :8082 | grep LISTEN | awk '{print $2}' | xargs -r kill -9
+
+# Windows equivalent
+# netstat -ano | findstr :8082
+# taskkill /PID <PID> /F
+```
+
+#### Check if the application is running
+```bash
+ps aux | grep "[o]rder-processing"
+```
 
 ### Production Mode
 
 ```bash
 java -jar target/order-processing-system-1.0.0.jar
+```
+
+## Development Tools
+
+### Spring Boot DevTools
+This project includes Spring Boot DevTools which provides:
+- Automatic application restart when files change
+- Live reload for static resources
+- Development-time configuration properties
+- Remote debug support
+
+#### Configuration
+Development-time properties can be set in `src/main/resources/application-local.properties`
+
+#### Disabling Live Reload
+Set the following in `application-local.properties`:
+```properties
+spring.devtools.livereload.enabled=false
 ```
 
 ## Accessing the Application
